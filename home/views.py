@@ -26,6 +26,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime 
 from django.utils import timezone
+import random
 # Create your views here.
 class IndexView(ListView, LoginRequiredMixin):
     model = Post
@@ -39,7 +40,8 @@ class IndexView(ListView, LoginRequiredMixin):
             following = user.following.all()
             following_ids = []
             for x in following:
-                following_ids.append(x.id)  
+                following_ids.append(x.id) 
+            print(following_ids) 
             following_ids.append(user.id)
             posts_qs = Post.objects.filter(author__id__in=following_ids).order_by('-date')
 
@@ -105,6 +107,14 @@ class IndexView(ListView, LoginRequiredMixin):
 
             post_form = NewPostForm
 
+            # people you my like to follow
+            p_may_follow = Profile.objects.exclude(user__id__in=following_ids)
+            if len(p_may_follow) > 5:
+                y = 5
+            else:
+                y = len(p_may_follow)
+
+
             context = {
                 'title':'InstaClone',
                 'profile':profile_page,
@@ -114,7 +124,8 @@ class IndexView(ListView, LoginRequiredMixin):
                 'notifications':notification,
                 'my_stories':my_profile,
                 'stories':all_stories,
-                'post_form':post_form
+                'post_form':post_form,
+                'p_may_follow':random.choices(p_may_follow,k=y)
                 }
             return render(self.request,'home/posts.html', context)
         else :

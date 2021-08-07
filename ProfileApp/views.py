@@ -22,6 +22,7 @@ from .forms import (
      EditProfileForm2, 
      EditProImgForm,
 )
+from django.contrib import messages
 
 # Create your views here.
 

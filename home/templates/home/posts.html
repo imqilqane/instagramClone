@@ -80,7 +80,7 @@ div#Post_type {
               <div >
                 <div style="width:45px; float:left;">
                   {% if my_stories.profile_image %}
-                  <p class="mb-0"><img src="media/{{my_stories.profile_image}}" style='width:45px;' alt="avatar mx-auto white" class="rounded-circle img-fluid"></p>
+                  <p class="mb-0"><img src="{{my_stories.profile_image.url}}" style='width:45px;' alt="avatar mx-auto white" class="rounded-circle img-fluid"></p>
                   {% else %}
                   <p class="mb-0"><img src="{% static 'home/img/profile_defualt.png' %}" style='width:45px;' alt="avatar mx-auto white" class="rounded-circle img-fluid"></p>
                   {% endif %}
@@ -109,7 +109,7 @@ div#Post_type {
 
                   <div class='pro_img'>
                       {% if post.author.profile.profile_image %}
-                        <p class="mb-0"><a href="{% url 'profile' post.author.id %}"><img src="media/{{post.author.profile.profile_image}}" style='width:45px;' alt="avatar mx-auto white" class="rounded-circle img-fluid"> {{post.author.username}}</a></p>
+                        <p class="mb-0"><a href="{% url 'profile' post.author.id %}"><img src="{{post.author.profile.profile_image.url}}" style='width:45px;' alt="avatar mx-auto white" class="rounded-circle img-fluid"> {{post.author.username}}</a></p>
                       {% else %}
                       <p class="mb-0"><a href="{% url 'profile' post.author.id %}"><img src="{% static 'home/img/profile_defualt.png' %}" style='width:45px;' alt="avatar mx-auto white" class="rounded-circle img-fluid"> {{post.author.username}}</a></p>
                   {% endif %}
@@ -124,7 +124,7 @@ div#Post_type {
                 </div>
                    <!--Card image-->
                 <div class="view">
-                    <img src="media/{{post.image}}" class="card-img-top" alt="photo">
+                    <img src="{{post.image.url}}" class="card-img-top" alt="photo">
                     <a href="#">
                       <div class="mask rgba-white-slight"></div>
                     </a>
@@ -176,9 +176,9 @@ div#Post_type {
 
                   {% if request.user.profile.profile_image %}
                   {% if my_stories %}
-                    <a href="{% url 'story' my_stories.id %}"><p  class="mb-0 text-dark"><img src="media/{{request.user.profile.profile_image}}" style='width:45px; border:solid 3px {{my_stories.profile_stories.get_collor_display}};' alt="avatar mx-auto white" class="rounded-circle img-fluid"> {{request.user.username}}</p></a>
+                    <a href="{% url 'story' my_stories.id %}"><p  class="mb-0 text-dark"><img src="{{request.user.profile.profile_image.url}}" style='width:45px; border:solid 3px {{my_stories.profile_stories.get_collor_display}};' alt="avatar mx-auto white" class="rounded-circle img-fluid"> {{request.user.username}}</p></a>
                     {% else %}
-                    <a href="{% url 'story' my_stories.id %}"><p class="mb-0 text-dark"><img src="media/{{request.user.profile.profile_image}}" style='width:45px;' alt="avatar mx-auto white" class="rounded-circle img-fluid"> {{request.user.username}}</p></a>
+                    <a href="{% url 'story' my_stories.id %}"><p class="mb-0 text-dark"><img src="{{request.user.profile.profile_image.url}}" style='width:45px;' alt="avatar mx-auto white" class="rounded-circle img-fluid"> {{request.user.username}}</p></a>
                     {% endif %}
                   {% else %}
                     {% if request.user.story %}
@@ -191,7 +191,7 @@ div#Post_type {
                 </div>
               
            <!--Panel-->
-   <div class="card shadow-none border ">
+   <div class="card shadow-none border mb-3">
                 
     <div class=" card-header  dark-text">
       Stories
@@ -200,6 +200,21 @@ div#Post_type {
       {% for profile_story in stories  %}
       <div class="mb-2">
         <a href="{% url 'story' profile_story.id %}"><p class="mb-0 text-dark"><img src="{{profile_story.profile_image.url}}" style='width:45px; border:solid 2px {{profile_story.profile_stories.get_collor_display}} ;' alt="avatar mx-auto white" class="rounded-circle img-fluid"> {{profile_story.user.username}}</p></a>
+      </div>
+    
+      {% endfor %}
+      
+    </div>
+  </div>
+  <div class="card shadow-none border ">
+                
+    <div class=" card-header  dark-text">
+      People you may like to follow
+    </div>
+    <div class="card-body">
+      {% for profile in p_may_follow  %}
+      <div class="mb-2">
+        <a href="{% url 'profile' profile.id %}"><p class="mb-0 text-dark"><img src="{{profile.profile_image.url}}" style='width:45px; border:solid 2px ;' alt="avatar mx-auto white" class="rounded-circle img-fluid"> {{profile.user.username}}</p></a>
       </div>
     
       {% endfor %}

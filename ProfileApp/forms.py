@@ -23,7 +23,6 @@ class EditProImgForm(forms.ModelForm):
         fields = ('profile_image',)
 
 class EditProfileForm2(forms.ModelForm):
-
     class Meta:
         model = User
-        fields = ['email','first_name','last_name','username','password']
+        fields = ['email','first_name','last_name','username']
